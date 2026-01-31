@@ -15,13 +15,48 @@ import { logInOutline} from "ionicons/icons";
 })
 export class LoginPage implements OnInit {
 
+
+  /////////////////////////Formulario//////////////////////////////
   private readonly _formBuilder=inject(FormBuilder);
   readonly loginForm=this._formBuilder.group({
-    email:['', Validators.required],
+    email:['', Validators.required,Validators.email],
     password: ['', Validators.required],
+
+    /// regex  expresiones regulares
+
   })
 
 
+
+
+  /////////////////////////Getters//////////////////////////////
+
+  get isEmailRequired(): boolean {
+    const emailControl=this.loginForm.get('email');
+    return emailControl? emailControl.hasError('required') && emailControl.touched: false;
+  }
+
+
+  get isEmailInvalid(): boolean {
+    const emailControl=this.loginForm.get('email');
+    return emailControl? emailControl.hasError('email') && emailControl.touched: false;
+  }
+
+
+  get isPasswordRequired(): boolean {
+    const passwordControl=this.loginForm.get('password');
+    return passwordControl? passwordControl.hasError('required') && passwordControl.touched: false;
+  }
+
+  get isFormInvalid():boolean{
+    return this.loginForm.invalid;
+  }
+
+  onSubmit() {
+    if (this.isFormInvalid) return;
+    const values=this.loginForm.value;
+    console.log(values);
+  }
 
 
   constructor() {
@@ -31,5 +66,7 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {
   }
+
+
 
 }

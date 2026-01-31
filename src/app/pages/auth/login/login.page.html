@@ -5,25 +5,56 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <form [formGroup]="loginForm" ]>
-    <ion-item>
+  <form [formGroup]="loginForm"  (ngSubmit)="onSubmit()">
+
+
+    <ion-item >
       <ion-label>Correo Electronico:
-      <ion-input type="email" [clearInput]="true" mode="ios" formControlName="email"></ion-input>
+        <ion-note [color]="isEmailRequired || isEmailInvalid ? 'danger':'medium'">*</ion-note>
+      <ion-input type="email" [clearInput]="true"
+                 mode="ios"
+                 formControlName="email"
+                 [class.form--input__invalid]="isEmailRequired||isEmailInvalid" >
+      </ion-input>
       </ion-label>
     </ion-item>
-    <ion-note color="danger">El campo es requerido</ion-note>
-    <ion-note color="danger">El campo es invalido</ion-note>
+
+    @if (isEmailRequired){
+      <ion-note class="form--error-message">El correo electronico es requerido</ion-note>
+    }
+    @if (isEmailInvalid){
+      <ion-note class="form--error-message">El correo electronico es invalido</ion-note>
+    }
+
+
 
 
     <ion-item>
       <ion-label>Contraseña:
-        <ion-input type="password" [clearInput]="true" mode="ios" formControlName="password"></ion-input>
+        <ion-note [color]="isPasswordRequired ? 'danger':'medium'">*</ion-note>
+        <ion-input type="password"
+                   [clearInput]="true" mode="ios"
+                   formControlName="password"
+                   [class.form--input__invalid]="isPasswordRequired"
+        >
+          <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+        </ion-input>
       </ion-label>
     </ion-item>
-    <ion-note color="danger">La contraseña es requerida</ion-note>
+
+    @if (isPasswordRequired){
+      <ion-note class="form--error-message">La contraseña es requerida</ion-note>
+    }
+
 
 <!--    icono desde https://ionic.io/ionicons-->
-    <ion-button color="success" type="submit" expand="block" [disabled]="true" mode="ios"> <ion-icon name="log-in-outline"></ion-icon> Iniciar Sesion  </ion-button>
+    <ion-button color="success" type="submit" expand="block"
+                [disabled]="isFormInvalid"
+                [class.disabled-button]="isFormInvalid"
+                [class.enabled-button]="!isFormInvalid"
+                mode="ios">
+      <ion-icon name="log-in-outline">
+    </ion-icon> Iniciar Sesion  </ion-button>
 
 
 
