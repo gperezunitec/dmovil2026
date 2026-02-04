@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Blank
+      Ion Toast
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,12 +9,25 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
+      <ion-title size="large">Ion Toast</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+
+<!--  Inline Toast-->
+
+<ion-button color="danger" id="open-toast">Abrir Toast</ion-button>
+  <ion-toast duration="5000" message="Hola mama, estoy aprendiendo a usar el toast" position="top" trigger="open-toast" color="danger"></ion-toast>
+
+
+  <!--  Is open Property-->
+  <ion-button color="warning" id="open-toast" (click)="openOrCloseToast()">Abrir Toast</ion-button>
+  <ion-toast duration="5000" message="Hola mama, estoy aprendiendo a usar el toast" position="bottom" [isOpen]="showToast()"  (didDismiss)="openOrCloseToast()" color="success"></ion-toast>
+
+
+  <!--  Controller Toast-->
+  <ion-button color="success" id="open-toast" (click)="openToastService()">Abrir Toast con control</ion-button>
+
+
+
 </ion-content>

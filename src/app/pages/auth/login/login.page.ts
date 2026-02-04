@@ -4,6 +4,7 @@ import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angula
 import {IonicModule} from "@ionic/angular";
 import {addIcons} from "ionicons";
 import { logInOutline} from "ionicons/icons";
+import {LoadingService} from "../../../services/shared/loading-service";
 
 @Component({
   selector: 'app-login',
@@ -15,6 +16,7 @@ import { logInOutline} from "ionicons/icons";
 })
 export class LoginPage implements OnInit {
 
+  private readonly _loadingService = inject(LoadingService);
 
   /////////////////////////Formulario//////////////////////////////
   private readonly _formBuilder=inject(FormBuilder);
@@ -55,7 +57,9 @@ export class LoginPage implements OnInit {
   onSubmit() {
     if (this.isFormInvalid) return;
     const values=this.loginForm.value;
+    this._loadingService.createLoading();
     console.log(values);
+    this._loadingService.closeLoading()
   }
 
 
