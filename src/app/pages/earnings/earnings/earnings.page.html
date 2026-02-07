@@ -1,0 +1,42 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>earnings</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">earnings</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-button color="secondary" id="action-sheet-button">Mostrar Action Sheet</ion-button>
+<ion-action-sheet
+  trigger="action-sheet-button"
+  header="menu de opciones"
+  sub-header="selecciona una opcion para gestionar tus ganancias"
+  mode="ios"
+  [buttons]="actionSheetButtons"
+>
+
+</ion-action-sheet>
+
+
+<!--  IsOpen property-->
+  <ion-button color="dark" (click)="openOrCloseActionSheet()" >Mostrar Action Sheet is open</ion-button>
+
+  <ion-action-sheet
+    [isOpen]="showActionSheet()"
+    header="menu de opciones"
+    sub-header="selecciona una opcion para gestionar tus ganancias"
+    mode="ios"
+    [buttons]="actionSheetButtons"
+    (didDismiss)="openOrCloseActionSheet()"
+  ></ion-action-sheet>
+
+
+  <ion-button color="warning" (click)="showEarningsActionSheet()" >Abrir opciones</ion-button>
+
+
+</ion-content>

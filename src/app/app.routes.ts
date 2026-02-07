@@ -22,4 +22,13 @@ export const routes: Routes = [
     path: 'register',
     loadComponent: () => import('./pages/auth/register/register.page').then( m => m.RegisterPage)
   },
+  {
+    path: 'profile',
+    loadComponent: () => import('./pages/profile/profile/profile.page').then( m => m.ProfilePage)
+  },
+  {
+    path: 'earnings',
+    loadComponent: () => import('./pages/earnings/earnings/earnings.page').then( m => m.EarningsPage)
+  },
+
 ];

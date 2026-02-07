@@ -1,0 +1,40 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>ion Alert</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Ion Alert</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+
+
+<!--  Alert Trigger-->
+  <ion-button color="primary" id="alert-button">Mostrar Alerta</ion-button>
+  <ion-alert trigger="alert-button"
+             title="Cancelar Viaje"
+             subHeader="Estas seguro de cancelar el viaje"
+             message="Si cancelas el viaje perderas tu bono"
+             [buttons]="alertButtons"
+  ></ion-alert>
+
+  <!--  isOpen Property-->
+  <ion-button color="warning" (click)="openOrCloseAlert()">Mostrar Alerta</ion-button>
+  <ion-alert
+    [isOpen]="showAlert()"
+    header="Eliminar Cuenta bancaria"
+    sub-header="Esta seguro que quiere eliminar cuenta bancaria?"
+    message="Si eliminas la cuenta perderas tu historial"
+    [buttons]="alertButtons"
+    (didDismiss)="openOrCloseAlert()"
+    mode="ios"
+  ></ion-alert>
+
+  <!--  Alert Controler-->
+  <ion-button color="warning" (click)="openOrCloseAlert()">Mostrar Alerta con el controlador</ion-button>
+
+</ion-content>
