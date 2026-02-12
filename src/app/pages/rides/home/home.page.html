@@ -28,6 +28,15 @@
   <!--  Controller Toast-->
   <ion-button color="success" id="open-toast" (click)="openToastService()">Abrir Toast con control</ion-button>
 
+  <ion-button color="warning" (click)="createPhoto()">Create FOto</ion-button>
+
+  @for(photo of photos(); track $index){
+    <ion-item>
+      <ion-label>{{photo.title}}</ion-label>
+      <ion-button (click)="getPhotoByID(photo.id)">Ver Mas</ion-button>
+      <ion-button color="danger" (click)="deletePhoto(photo.id)">Eliminar Foto</ion-button>
+    </ion-item>
+  }
 
 
 </ion-content>
