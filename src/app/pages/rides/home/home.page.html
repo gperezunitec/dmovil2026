@@ -33,7 +33,7 @@
   @for(photo of photos(); track $index){
     <ion-item>
       <ion-label>{{photo.title}}</ion-label>
-      <ion-button (click)="getPhotoByID(photo.id)">Ver Mas</ion-button>
+      <ion-button (click)="getPhotoById(photo.id)">Ver Mas</ion-button>
       <ion-button color="danger" (click)="deletePhoto(photo.id)">Eliminar Foto</ion-button>
     </ion-item>
   }

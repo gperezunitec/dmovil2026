@@ -8,6 +8,7 @@ import {LoadingService} from "../shared/loading-service";
 
 const API_URL = `${environment.API_URL}photos`;
 
+
 @Injectable({
   providedIn: 'root',
 })
@@ -19,7 +20,7 @@ export class PhotoApiService {
   private readonly _loadingService=inject(LoadingService);
 
   photos:WritableSignal<PhotoDto[]>=signal<PhotoDto[]>([]);
-  photo:WritableSignal<PhotoDto|null>=signal<PhotoDto|null>(null);
+  photo: WritableSignal<PhotoDto[] | null> = signal<PhotoDto[] | null>(null);
 
 
   alerButtons=[
@@ -54,32 +55,33 @@ export class PhotoApiService {
   }
 
 
-  async updatePhoto(photo:PhotoDto):Promise<void>{
-    await this._loadingService.createLoading('Actualizando Foto'),
-    this._httpClient.put<PhotoDto>(`${API_URL}/${photo.id}`,photo).subscribe({
-      next:async (response:PhotoDto)=>{
-        if(response){
+  async updatePhoto(photo: PhotoDto): Promise<void> {
+    await this._loadingService.createLoading('Actualizando Foto');  // ← comma → semicolon
+
+    this._httpClient.put<PhotoDto>(`${API_URL}/${photo.id}`, photo).subscribe({
+      next: async (response: PhotoDto) => {
+        if (response) {
           await this._loadingService.closeLoading();
-          this.photo.update((currentPhotos)=>{
-            const index=currentPhotos.findIndex((p)=>p.id===response.id);
-            if (index !== -1){
-              const updatePhotos=[...currentPhotos];
-              updatePhotos[index]=response;
-              return updatePhotos
+
+          // ✅ Use this.photos (array) not this.photo (single)
+          this.photos.update((currentPhotos) => {
+            const index = currentPhotos.findIndex((p: PhotoDto) => p.id === response.id);
+            if (index !== -1) {
+              const updatedPhotos = [...currentPhotos];
+              updatedPhotos[index] = response;
+              return updatedPhotos;
             }
-            return currentPhotos
-          })
-          await this._toastService.showToast('Foto creada con exito')
+            return currentPhotos;
+          });
+
+          await this._toastService.showToast('Foto actualizada con éxito');
         }
       },
-      error: async (error:Error) => {
+      error: async (error: Error) => {
         await this._loadingService.closeLoading();
-        await this._toastService.showToast(
-          'Ha ocurrido un error en el photo',
-          true,
-        )
+        await this._toastService.showToast('Ha ocurrido un error en el photo', true);
       }
-    })
+    });
   }
 
 
@@ -119,21 +121,18 @@ export class PhotoApiService {
 
 
 
-  getPhotoById(id: number): void {
-    this._httpClient.get<PhotoDto>(`${API_URL}/${id}`).subscribe({
-      next: (response: PhotoDto) => {
-        console.log(response);
-        this.photo.set(response); // Assuming this.photo is a WritableSignal
-      },
-      error: async (error) => {
-
-        console.error('Ha ocurrido un error:', error);
-
-        await this._toastService.showToast(
-          'Ha ocurrido un error al obtener la foto',
-          true
-        );
-      }
+  getPhotoById(id: number): Promise<PhotoDto> {
+    return new Promise((resolve, reject) => {
+      this._httpClient.get<PhotoDto>(`${API_URL}/${id}`).subscribe({
+        next: (response: PhotoDto) => {
+          this.photo.set([response]);
+          resolve(response);
+        },
+        error: async (error: Error) => {
+          await this._toastService.showToast('Ha ocurrido un error al obtener la foto', true);
+          reject(error);
+        }
+      });
     });
   }
 
