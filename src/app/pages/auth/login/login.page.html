@@ -10,19 +10,19 @@
 
     <ion-item >
       <ion-label>Correo Electronico:
-        <ion-note [color]="isEmailRequired || isEmailInvalid ? 'danger':'medium'">*</ion-note>
+        <ion-note [color]="isIdentifierRequired || isIdentifierInvalid ? 'danger':'medium'">*</ion-note>
       <ion-input type="email" [clearInput]="true"
                  mode="ios"
-                 formControlName="email"
-                 [class.form--input__invalid]="isEmailRequired||isEmailInvalid" >
+                 formControlName="identifier"
+                 [class.form--input__invalid]="isIdentifierRequired||isIdentifierInvalid" >
       </ion-input>
       </ion-label>
     </ion-item>
 
-    @if (isEmailRequired){
+    @if (isIdentifierRequired){
       <ion-note class="form--error-message">El correo electronico es requerido</ion-note>
     }
-    @if (isEmailInvalid){
+    @if (isIdentifierInvalid){
       <ion-note class="form--error-message">El correo electronico es invalido</ion-note>
     }
 

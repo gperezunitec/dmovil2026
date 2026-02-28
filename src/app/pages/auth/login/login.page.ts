@@ -5,6 +5,8 @@ import {IonicModule} from "@ionic/angular";
 import {addIcons} from "ionicons";
 import { logInOutline} from "ionicons/icons";
 import {LoadingService} from "../../../services/shared/loading-service";
+import {LoginDto} from "../../../dtos/auth/login.dto";
+import {AuthService} from "../../../services/auth/auth.service";
 
 @Component({
   selector: 'app-login',
@@ -16,12 +18,13 @@ import {LoadingService} from "../../../services/shared/loading-service";
 })
 export class LoginPage implements OnInit {
 
-  private readonly _loadingService = inject(LoadingService);
+  private readonly _authService:AuthService =inject(AuthService) ;
+
 
   /////////////////////////Formulario//////////////////////////////
   private readonly _formBuilder=inject(FormBuilder);
   readonly loginForm=this._formBuilder.group({
-    email:['', Validators.required,Validators.email],
+    identifier:['', Validators.required,Validators.email],
     password: ['', Validators.required],
 
     /// regex  expresiones regulares
@@ -33,15 +36,15 @@ export class LoginPage implements OnInit {
 
   /////////////////////////Getters//////////////////////////////
 
-  get isEmailRequired(): boolean {
-    const emailControl=this.loginForm.get('email');
+  get isIdentifierRequired(): boolean {
+    const emailControl=this.loginForm.get('identifier');
     return emailControl? emailControl.hasError('required') && emailControl.touched: false;
   }
 
 
-  get isEmailInvalid(): boolean {
-    const emailControl=this.loginForm.get('email');
-    return emailControl? emailControl.hasError('email') && emailControl.touched: false;
+  get isIdentifierInvalid(): boolean {
+    const identifierControl=this.loginForm.get('identifier');
+    return identifierControl? identifierControl.hasError('identifier') && identifierControl.touched: false;
   }
 
 
@@ -56,10 +59,13 @@ export class LoginPage implements OnInit {
 
   onSubmit() {
     if (this.isFormInvalid) return;
-    const values=this.loginForm.value;
-    this._loadingService.createLoading();
-    console.log(values);
-    this._loadingService.closeLoading()
+    const values:LoginDto={
+      identifier:this.loginForm.value.identifier ??'',
+      password:this.loginForm.value.password ??''
+    };
+
+    this._authService.login(values);
+
   }
 
 
