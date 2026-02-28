@@ -6,6 +6,7 @@ import {LoadingService} from "../shared/loading-service";
 import {PhotoDto} from "../../dtos/photos/photo-dto";
 import {LoginDto} from "../../dtos/auth/login.dto";
 import {TokenResponseDto} from "../../dtos/auth/token-response.dto";
+import {Router} from "@angular/router";
 
 
 const API_URL:string = `${environment.API_URL}auth/`;
@@ -19,6 +20,7 @@ export class AuthService {
   private readonly _httpClient:HttpClient=inject(HttpClient);
   private readonly _toastService:ToastService=inject(ToastService);
   private readonly _loadingService:LoadingService=inject(LoadingService);
+  private readonly _router:Router=inject(Router);
 
 
   async login(credentials:LoginDto):Promise<void>{
@@ -28,6 +30,7 @@ export class AuthService {
         if(response){
           await this._loadingService.closeLoading();
           await this._toastService.showToast('Inicio de Sesion Exitoso')
+          this._router.navigate(['/home']);
         }
       },
       error: async (error:Error) => {
