@@ -1,22 +1,34 @@
 import {Component, inject, OnInit, signal, WritableSignal} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {FormGroup, FormsModule} from '@angular/forms';
-import {IonAlert, IonButton, IonContent, IonHeader, IonTitle, IonToolbar} from '@ionic/angular/standalone';
+import {
+  IonAlert,
+  IonButton,
+  IonContent,
+  IonHeader,
+  IonImg,
+  IonItem,
+  IonTitle,
+  IonToolbar
+} from '@ionic/angular/standalone';
 import {AlertService} from "../../../services/shared/alert-service";
 import {ToastService} from "../../../services/shared/toast-service";
+import {CameraService} from "../../../services/shared/camera.service";
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonAlert]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonAlert, IonItem, IonImg]
 })
 export class ProfilePage implements OnInit {
 
   private readonly _alertService=inject(AlertService);
   private readonly _toastService=inject(ToastService);
+  private readonly _cameraService=inject(CameraService);
   showAlert:WritableSignal<boolean>=signal(false)
+  photo:WritableSignal<string>=signal('')
 
   constructor() {
     this.acceptCancelRideAlert()
@@ -87,6 +99,14 @@ export class ProfilePage implements OnInit {
       message:'esta accion no se puede revertir',
       buttons:this.alertButtons
     })
+  }
+
+
+  async onPickImage():Promise<void> {
+    const image:string= await this._cameraService.openCameraOrGallery();
+    if (image){
+      this.photo.set(image);
+    }
   }
 
 }

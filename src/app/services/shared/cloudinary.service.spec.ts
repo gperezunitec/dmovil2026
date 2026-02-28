@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { CaneraService } from './canera.service';
+import { CloudinaryService } from './cloudinary.service';
 
-describe('CaneraService', () => {
-  let service: CaneraService;
+describe('CloudinaryService', () => {
+  let service: CloudinaryService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(CaneraService);
+    service = TestBed.inject(CloudinaryService);
   });
 
   it('should be created', () => {

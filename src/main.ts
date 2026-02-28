@@ -10,7 +10,7 @@ import {environment} from "./environments/environment.prod";
 
 bootstrapApplication(AppComponent, {
   providers: [
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
     provideIonicAngular(),
     provideRouter(routes, withPreloading(PreloadAllModules)),
     provideHttpClient(withFetch()), provideFirebaseApp(() => initializeApp(environment.FIREBASE_CONFIG)), provideMessaging(() => getMessaging())
